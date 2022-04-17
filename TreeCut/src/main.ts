@@ -8,9 +8,9 @@ kaboom();
 
 randSeed(Date.now());
 
-loadSprite("wood", "/sprite/woodP.png", {
+loadSprite("wood", "/sprite/woodP2.png", {
   sliceX: 1,
-  sliceY: 8,
+  sliceY: 3,
 });
 loadSprite("player", "/sprite/player.png", {
   sliceX: 2,
@@ -23,9 +23,10 @@ loadSprite("player", "/sprite/player.png", {
     }
   }
 });
+loadSprite("dead","/sprite/dead.png");
 loadSprite("background", "/sprite/background.png");
 //版权警告
-loadSound("bgm", "/bgm/kimonohana.mp3");
+//loadSound("bgm", "/bgm/kimonohana.mp3");
 
 
 let SCALE_X = 0.45;
@@ -48,9 +49,9 @@ let LX = 0;
 let gameState = 0;
 //State: 0 stop 1 run 2 score
 
-const bgm = play("bgm", {
-  loop: true,
-})
+// const bgm = play("bgm", {
+//   loop: true,
+// })
 const bg = add([
   sprite("background"),
   pos(center()),
@@ -62,6 +63,7 @@ const bg = add([
 
 function InitGame() {
   destroyAll("end");
+  destroyAll("block");
   woodList = new Array();
   blockPosList = new Array();
   gameScore = add((
@@ -90,7 +92,7 @@ function InitGame() {
   player = add(
     [
       "block",
-      pos(midX - blockOffsetX, blockUnderOffset + WOOD_BLOCK_HEIGHT),
+      pos(midX - blockOffsetX, blockUnderOffset + WOOD_BLOCK_HEIGHT*1.5),
       sprite("player"),
       origin("center"),
       scale(SCALE_X),
@@ -102,7 +104,7 @@ function InitGame() {
       "block",
       pos(midX, blockUnderOffset + WOOD_BLOCK_HEIGHT),
       sprite("wood", {
-        frame: 4,
+        frame: 2,
       }),
       origin("center"),
       scale(SCALE_X)
@@ -115,7 +117,7 @@ function InitGame() {
     woodList.push(add([
       "block",
       sprite("wood", {
-        frame: randi(4, 8),
+        frame: 2,
       }),
       pos(midX, blockUnderOffset - WOOD_BLOCK_HEIGHT * i),
       origin("center"),
@@ -146,7 +148,7 @@ function updateBlock() {
     }
   }
   blockPosList[MAX_TREE_HEIGHT - 1] = t;
-  woodList[MAX_TREE_HEIGHT - 1].frame = t * 2 + randi(0, 2);
+  woodList[MAX_TREE_HEIGHT - 1].frame = t;
   // for(let i=0;i<MAX_TREE_HEIGHT;++i){
   //     if(blockPosList[i]==0){
   //         lBlockList[i].hidden=false;
@@ -182,10 +184,10 @@ function dirInScreen(pos) {
 
 function blockLogic(f) {
   if (f == 0) {
-    player.moveTo(midX - blockOffsetX, blockUnderOffset + WOOD_BLOCK_HEIGHT);
+    player.moveTo(midX - blockOffsetX, blockUnderOffset + WOOD_BLOCK_HEIGHT*1.5);
     player.flipX(false);
   } else {
-    player.moveTo(midX + blockOffsetX, blockUnderOffset + WOOD_BLOCK_HEIGHT);
+    player.moveTo(midX + blockOffsetX, blockUnderOffset + WOOD_BLOCK_HEIGHT*1.5);
     player.flipX(true);
   }
   if (f == blockPosList[0]) return false;
@@ -193,16 +195,29 @@ function blockLogic(f) {
 }
 
 function gameOver() {
-  destroyAll("block");
+  //destroyAll("block");
   gameState = 2;
   let scoreTable = add(
     [
       "end",
-      text("Game Over\nYour Score:" + gameScore.value),
+      text("GameOver\nScore:" + gameScore.value),
       pos(center()),
       origin("center"),
+      z(4),
     ]
   )
+  player.hidden=true;
+  let deadPlayer= add(
+    [
+      "end",
+      pos(player.pos),
+      sprite("dead"),
+      origin("center"),
+      scale(SCALE_X),
+      z(3),
+    ]
+  )
+  deadPlayer.flipX(player.pos.x>midX?true:false);
   scoreTable.textSize = width() / 9;
   destroyAll("afterclear");
 }
@@ -217,10 +232,10 @@ function OnClick(pos) {
     case 1:
       if (blockLogic(dirInScreen(pos))) {
         gameScore.value += 1;
-        updateBlock();
       } else {
         gameOver();
       }
+      updateBlock();
       break;
     case 2:
       InitGame();
