@@ -27,7 +27,7 @@ loadSprite("dead","/sprite/dead.png");
 loadSprite("background", "/sprite/background.png");
 //版权警告
 //loadSound("bgm", "/bgm/kimonohana.mp3");
-
+loadSound("tap","/bgm/ks.mp3");
 
 let SCALE_X = 0.45;
 let MAX_TREE_HEIGHT = 8;
@@ -45,6 +45,9 @@ let blockPosList;
 let player;
 let playerInBlock;
 let LX = 0;
+let tapSound=play("tap",{
+  speed:2.0
+});
 //State: left 0 right 1 none 2
 let gameState = 0;
 //State: 0 stop 1 run 2 score
@@ -161,14 +164,16 @@ function updateBlock() {
   //         rBlockList[i].hidden=true;
   //     }
   // }
+  tapSound.stop(); 
+  tapSound.play();
   player.stop();
-  //开始计时
   player.play("cut", {
     speed: 12,
     onEnd: () => {
       player.play("stay");
     }
   })
+  //开始计时
   gameTime.isStart = true;
 }
 
