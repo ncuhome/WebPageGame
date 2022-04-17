@@ -65,6 +65,7 @@ const bg = add([
 
 
 function InitGame() {
+  tapSound.play();
   destroyAll("end");
   destroyAll("block");
   woodList = new Array();
@@ -164,8 +165,7 @@ function updateBlock() {
   //         rBlockList[i].hidden=true;
   //     }
   // }
-  tapSound.stop(); 
-  tapSound.play();
+
   player.stop();
   player.play("cut", {
     speed: 12,
@@ -195,6 +195,8 @@ function blockLogic(f) {
     player.moveTo(midX + blockOffsetX, blockUnderOffset + WOOD_BLOCK_HEIGHT*1.5);
     player.flipX(true);
   }
+  tapSound.stop();
+  tapSound.play();
   if (f == blockPosList[0]) return false;
   return true;
 }
@@ -228,6 +230,7 @@ function gameOver() {
 }
 
 function OnClickMob(i, pos) {
+  if(i==0)
   OnClick(pos);
 }
 
