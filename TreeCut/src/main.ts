@@ -55,11 +55,16 @@ let gameState = 0;
 // const bgm = play("bgm", {
 //   loop: true,
 // })
+let bgXscale=width()/1080;
+let bgYscale=height()/1920;
+
+//debug.log(String(bgXscale)+":"+String(bgYscale));
+
 const bg = add([
   sprite("background"),
   pos(center()),
   origin("center"),
-  scale(0.8),
+  scale(Math.max(bgXscale,bgYscale)),
   z(-1)
 ])
 
