@@ -166,13 +166,7 @@ function updateBlock() {
   //     }
   // }
 
-  player.stop();
-  player.play("cut", {
-    speed: 12,
-    onEnd: () => {
-      player.play("stay");
-    }
-  })
+
   //开始计时
   gameTime.isStart = true;
 }
@@ -196,7 +190,14 @@ function blockLogic(f) {
     player.flipX(true);
   }
   tapSound.stop();
-  tapSound.play();
+  tapSound.play(0);
+  player.stop();
+  player.play("cut", {
+    speed: 12,
+    onEnd: () => {
+      player.play("stay");
+    }
+  })
   if (f == blockPosList[0]) return false;
   return true;
 }
