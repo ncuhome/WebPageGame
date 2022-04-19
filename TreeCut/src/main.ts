@@ -239,9 +239,13 @@ function gameOver() {
   })
 }
 
+let isInTouch=false;
+
 function OnClickMob(i, pos) {
-  if(i==0)
-  OnClick(pos);
+  if(!isInTouch){
+    isInTouch=true;
+    OnClick(pos);
+  }
 }
 
 function OnClick(pos) {
@@ -259,6 +263,7 @@ function OnClick(pos) {
       InitGame();
       break;
   }
+  isInTouch=false;
 }
 
 function updateText() {
