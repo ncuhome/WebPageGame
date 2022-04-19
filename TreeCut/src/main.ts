@@ -233,6 +233,10 @@ function gameOver() {
   deadPlayer.flipX(player.pos.x>midX?true:false);
   scoreTable.textSize = width() / 9;
   destroyAll("afterclear");
+  //防止快速点击导致再次重开
+  wait(0.5,()=>{
+    gameState=3;
+  })
 }
 
 function OnClickMob(i, pos) {
@@ -251,7 +255,7 @@ function OnClick(pos) {
       }
       updateBlock();
       break;
-    case 2:
+    case 3:
       InitGame();
       break;
   }
