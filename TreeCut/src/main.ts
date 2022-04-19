@@ -23,7 +23,7 @@ loadSprite("player", "/sprite/player.png", {
     }
   }
 });
-loadSprite("dead","/sprite/dead.png");
+loadSprite("dead","/sprite/ndead.png");
 loadSprite("background", "/sprite/background.png");
 //版权警告
 //loadSound("bgm", "/bgm/kimonohana.mp3");
