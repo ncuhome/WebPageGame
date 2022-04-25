@@ -1,0 +1,22 @@
+{
+  "name": "brickbreak",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "kaboom": "^2000.2.9",
+    "typescript": "^4.6.3",
+    "vite": "^2.9.5"
+  },
+  "devDependencies": {
+    "typescript": "^4.6.3",
+    "vite": "2.9.1"
+  },
+  
+  "scripts": {
+    "build": "vite build",
+    "dev":"vite --host"
+  },
+  "author": "",
+  "license": "ISC"
+}
